@@ -132,4 +132,30 @@ export class AppComponent implements OnInit {
 
 
 
+
+  deleteTask(task: Task) {
+    if (this.updating) {
+      return; // Si ya se está actualizando otra tarea, se evita realizar otra solicitud
+    }
+
+    this.updating = true;
+    this.taskService.deleteTask(task).pipe(take(1)).subscribe(
+      (deletedTask) => {
+        console.log(`Tarea ${deletedTask} eliminada`);
+
+        this.updating = false;
+        this.tasks$ = this.taskService.getAllTasks(); // Actualizar la lista de tareas manualmente
+        this.completedTasks$ = this.tasks$.pipe(
+          map(tasks => tasks.filter(task => task.estado === 1))
+        );
+      },
+      (error) => {
+        console.log(`Error actualizando tarea ${task.id}`, error);
+        this.handleUpdateError(error);
+        this.updating = false;
+      }
+    );
+  }
+
+
 }

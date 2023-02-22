@@ -78,6 +78,8 @@
             <button
               style="float: right; margin-right: 10px"
               class="btn btn-danger btn-sm"
+              data-bs-toggle="modal"
+              [attr.data-bs-target]="'#eliminarModal-' + task.id"
             >
               <i class="fas fa-trash-alt"></i>
             </button>
@@ -91,7 +93,53 @@
             </button>
           </div>
         </li>
-
+        <div
+        class="modal fade"
+        [id]="'eliminarModal-' + task.id"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="eliminarModal"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="eliminarModal">Eliminar Tarea</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <form
+              (submit)="
+                deleteTask(task); $event.preventDefault()
+              "
+            >
+              <div class="modal-body">
+             Seguro que deseas eliminar la tarea?: {{task.nota}}
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Cerrar
+                </button>
+                <button
+                  type="submit"
+                  data-bs-dismiss="modal"
+                  class="btn btn-danger"
+                >
+                 Eliminar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
         <!-- Modal de edición -->
         <div
           class="modal fade"
@@ -163,11 +211,13 @@
             <label class="form-check-label">{{ task.nota }}</label>
 
             <button
-              style="float: right; margin-right: 10px"
-              class="btn btn-danger btn-sm"
-            >
-              <i class="fas fa-trash-alt"></i>
-            </button>
+            style="float: right; margin-right: 10px"
+            class="btn btn-danger btn-sm"
+            data-bs-toggle="modal"
+            [attr.data-bs-target]="'#eliminarModal-' + task.id"
+          >
+            <i class="fas fa-trash-alt"></i>
+          </button>
             <button
               style="float: right; margin-right: 10px"
               class="btn btn-warning btn-sm"
@@ -178,7 +228,53 @@
             </button>
           </div>
         </li>
-
+        <div
+        class="modal fade"
+        [id]="'eliminarModal-' + task.id"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="eliminarModal"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="eliminarModal">Eliminar Tarea</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <form
+              (submit)="
+                deleteTask(task); $event.preventDefault()
+              "
+            >
+              <div class="modal-body">
+             Seguro que deseas eliminar la tarea?: {{task.nota}}
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Cerrar
+                </button>
+                <button
+                  type="submit"
+                  data-bs-dismiss="modal"
+                  class="btn btn-danger"
+                >
+                 Eliminar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
         <!-- Modal de edición -->
         <div
           class="modal fade"
