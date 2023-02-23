@@ -16,7 +16,9 @@ RUN npm install -g @angular/cli@latest
 WORKDIR /usr/share/nginx/html
 
 # Copy the application code
-COPY ./dist ./
+COPY dist/ ./
+
+
 COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 
 # Expose the application port
