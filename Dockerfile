@@ -9,7 +9,8 @@ RUN apt-get update && apt-get install -y nodejs
 RUN npm install -g npm@8.19.2
 
 # Install Angular CLI 15.2.0
-RUN npm install -g @angular/cli@15.2.0
+RUN npm install -g @angular/cli@latest
+
 
 # Set the working directory
 WORKDIR /usr/share/nginx/html
