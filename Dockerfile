@@ -7,6 +7,6 @@ WORKDIR /usr/share/nginx/html
 COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 COPY . .
 
-RUN npm install
+RUN npm install -g npm@8.19.2
 
 EXPOSE 4200
