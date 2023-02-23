@@ -19,10 +19,9 @@ WORKDIR /app
 COPY . .
 
 # Build the Angular app for production
-RUN ng build --configuration=production
 
-# Copy the built application code to the nginx html directory
-RUN cp -R /app/dist/* /usr/share/nginx/html/
+
+
 
 # Copy the nginx configuration file
 COPY ./nginx.conf /etc/nginx/conf.d/default.conf
