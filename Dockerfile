@@ -22,4 +22,4 @@ COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 COPY . .
 
 # Expose the application port
-EXPOSE 4200
+EXPOSE 3001
