@@ -13,21 +13,11 @@ RUN npm install -g npm@8.19.2
 RUN npm install -g @angular/cli@latest
 
 # Set the working directory
-WORKDIR /app
+WORKDIR /usr/share/nginx/html
 
 # Copy the application code
-COPY . .
-
-# Build the Angular app for production
-
-
-
-
-# Copy the nginx configuration file
+COPY ./build ./
 COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 
 # Expose the application port
 EXPOSE 4200
-
-# Start the Nginx server
-CMD ["nginx", "-g", "daemon off;"]
