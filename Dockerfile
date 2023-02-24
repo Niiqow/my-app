@@ -9,7 +9,7 @@ COPY package*.json ./
 
 # Install dependencies
 RUN npm install
-
+RUN npm install -g @angular/cli
 # Copy the remaining application files to the container
 COPY . .
 
