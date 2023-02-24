@@ -12,16 +12,18 @@ RUN npm install -g npm@8.19.2
 # Install Angular CLI 15.2.0
 RUN npm install -g @angular/cli@latest
 
-COPY dist/my-app/ /usr/share/nginx/html/
+WORKDIR /app
 
-# Set the working directory
-WORKDIR /usr/share/nginx/html
+COPY package*.json ./
 
-# Copy the application code
+COPY . .
 
+RUN npm run build --prod
 
+FROM nginx:1.21-alpine
 
-COPY ./nginx.conf /etc/nginx/conf.d/default.conf
-
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=builder /app/dist/my-angular-app /usr/share/nginx/html
 # Expose the application port
 EXPOSE 4200
+CMD ["nginx", "-g", "daemon off;"]
