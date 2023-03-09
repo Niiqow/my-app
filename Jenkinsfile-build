@@ -2,7 +2,7 @@ pipeline {
   agent any
   environment {
     DOCKERHUB_CREDENTIALS = credentials('docker')
-    DOCKERHUB_IMAGE = 'niiqow/task'
+    DOCKERHUB_IMAGE = 'niiqow/taskdev'
     DOCKERHUB_TAG = "task-${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
   }
   stages {
