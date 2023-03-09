@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { environment } from '../../environments/environment';
+import { environment } from '../environments/environment';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { Task } from './task.model';
