@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  titulo: 'titulo'
+  titulo: 'Lista de tareas'
 };
