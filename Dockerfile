@@ -29,7 +29,7 @@ COPY nginx.conf /etc/nginx/conf.d/
 COPY --from=builder /app/dist/my-app /usr/share/nginx/html
 
 # Expose port 80 for the Nginx web server
-EXPOSE 4200
+EXPOSE 80
 
 # Start the Nginx web server in the foreground
 CMD ["nginx", "-g", "daemon off;"]
