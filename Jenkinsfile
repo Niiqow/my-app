@@ -12,7 +12,7 @@ pipeline {
     string(name: 'container_name', defaultValue: 'task', description: 'Nombre del contenedor de docker.')
     string(name: 'image_name', defaultValue: 'task', description: 'Nombre de la imagene docker.')
    string(name: 'tag_image', defaultValue: "tag-${new Date().format('yyyyMMddHHmmss')}", description: 'Tag de la imagen de la página.')
-    string(name: 'container_port', defaultValue: '4200', description: 'Puerto que usa el contenedor')
+    string(name: 'container_port', defaultValue: '80', description: 'Puerto que usa el contenedor')
   }
     stages {
      
@@ -44,6 +44,7 @@ pipeline {
 
   stage('Push to DockerHUB Angular') {
       steps {
+        sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password dckr_pat_gVpdHEJnxmBIia7tHyILm6zS05c'
         sh "docker tag ${image_name}:${tag_image} ${DOCKERHUB_IMAGE}:${tag_image}"
         sh "docker push ${DOCKERHUB_IMAGE}:${tag_image}"
       }
@@ -53,8 +54,8 @@ pipeline {
       stage('Deploy to Azure App Service Angular') {
       steps {
         withCredentials(bindings: [azureServicePrincipal('Azure-Service-Principal')]) {
-          sh 'curl -sL https://aka.ms/InstallAzureCLIDeb | bash'
           sh 'az login --service-principal -u ${AZURE_CLIENT_ID} -p ${AZURE_CLIENT_SECRET} --tenant ${AZURE_TENANT_ID}'
+          sh "az webapp delete -g ${AZURE_MODEL} -n ${AZURE_NAME}"
           sh "az webapp create -g ${AZURE_MODEL} -p ${AZURE_PLAN} -n ${AZURE_NAME} -i ${DOCKERHUB_IMAGE}:${tag_image}"
         }
 
