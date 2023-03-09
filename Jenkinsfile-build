@@ -20,14 +20,15 @@ pipeline {
       
       }
     }
-     stage('Deploy') {
-            when {
-                branch 'develop'
-            }
-            steps {
-                build job: 'Task-deploy-develop', parameters: [string(name: 'DOCKERHUB_TAG', value: env.DOCKERHUB_TAG)]
-              
-            }
-        }
+    stage('Deploy') {
+  when {
+    branch 'develop'
+  }
+  steps {
+    build job: 'Task-deploy-develop', parameters: [
+      string(name: 'DOCKERHUB_TAG', value: env.DOCKERHUB_TAG)
+    ]
+  }
+}
   }
 }
