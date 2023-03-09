@@ -14,9 +14,8 @@ RUN npm install -g @angular/cli
 COPY . .
 
 
-# Build the application
-RUN npm run build --prod -- --build-arg title=${title}
-
+ARG title
+RUN npm run build --prod -- --configuration=production --output-path=dist --base-href=/ --deploy-url=/ --aot --vendor-chunk --common-chunk --build-optimizer --progress --named-chunks --output-hashing=all --extract-licenses --source-map=false --title="${title}"
 
 
 # Use the official Nginx image as the base image for serving content
