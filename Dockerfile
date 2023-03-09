@@ -14,7 +14,8 @@ RUN npm install -g @angular/cli
 COPY . .
 
 # Build the application
-RUN npm run build --prod
+RUN npm run build --prod -- --build-arg title=$title
+
 
 # Use the official Nginx image as the base image for serving content
 FROM nginx:latest
