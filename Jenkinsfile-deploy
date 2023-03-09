@@ -1,15 +1,16 @@
 pipeline {
   agent any
   
-  parameters {
-    string(name: 'DOCKERHUB_TAG', defaultValue: '', description: 'Tag para la imagen de Docker')
-  }
+parameters {
+  string(name: 'DOCKERHUB_TAG', defaultValue: '', description: 'Tag para la imagen de Docker')
+}
+
   environment {
     AZURE_MODEL = 'SOCIUSRGLAB-RG-MODELODEVOPS-DEV'
     AZURE_PLAN = 'Plan-SociusRGLABRGModeloDevOpsDockerDev'
     AZURE_NAME = 'sociuswebapptest009'
     DOCKERHUB_IMAGE = 'niiqow/taskdev'
-
+    DOCKERHUB_TAG = params.DOCKERHUB_TAG
   }
   stages {
   
