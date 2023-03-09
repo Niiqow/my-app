@@ -1,0 +1,22 @@
+pipeline {
+  agent any
+  environment {
+    DOCKERHUB_CREDENTIALS = credentials('docker')
+    DOCKERHUB_IMAGE = 'niiqow/task'
+  }
+  stages {
+    stage('Checkout code') {
+      steps {
+        checkout([$class: 'GitSCM', branches: [[name: '*/develop']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/Niiqow/my-app.git']]])
+      }
+    }
+
+    stage('Build image') {
+      steps {
+        sh "docker build -t ${DOCKERHUB_IMAGE}:latest ."
+        sh "docker login -u ${DOCKERHUB_CREDENTIALS_USR} -p ${DOCKERHUB_CREDENTIALS_PSW}"
+        sh "docker push ${DOCKERHUB_IMAGE}:latest"
+      }
+    }
+  }
+}
