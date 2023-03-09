@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  titulo: 'titulo'
+  titulo: 'Lista de tareas'
 };
 
 /*
