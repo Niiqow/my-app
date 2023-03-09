@@ -15,7 +15,7 @@ RUN npm install -g @angular/cli
 COPY . .
 
 # Set the TITLE environment variable
-ENV TITLE="My Title"
+ENV titulo="My Title"
 
 # Build the application
 RUN npm run build --prod
