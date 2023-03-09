@@ -3,6 +3,7 @@ pipeline {
   environment {
     DOCKERHUB_CREDENTIALS = credentials('docker')
     DOCKERHUB_IMAGE = 'niiqow/task'
+    DOCKERHUB_TAG = env.DOCKERHUB_TAG
   }
   stages {
     stage('Checkout code') {
@@ -13,10 +14,18 @@ pipeline {
 
     stage('Build image') {
       steps {
-        sh "docker build -t ${DOCKERHUB_IMAGE}:latest ."
+        sh "docker build -t ${DOCKERHUB_IMAGE}:${DOCKERHUB_TAG} ."
         sh "docker login -u ${DOCKERHUB_CREDENTIALS_USR} -p ${DOCKERHUB_CREDENTIALS_PSW}"
-        sh "docker push ${DOCKERHUB_IMAGE}:latest"
+        sh "docker push ${DOCKERHUB_IMAGE}:${DOCKERHUB_TAG}"
       }
     }
+     stage('Deploy') {
+            when {
+                branch 'develop'
+            }
+            steps {
+                build job: 'Task-deploy-develop'
+            }
+        }
   }
 }
