@@ -5,6 +5,7 @@ pipeline {
     AZURE_PLAN = 'Plan-SociusRGLABRGModeloDevOpsDockerDev'
     AZURE_NAME = 'sociuswebapptest009'
     DOCKERHUB_IMAGE = 'niiqow/task'
+    DOCKERHUB_TAG = env.DOCKERHUB_TAG
   }
   stages {
     stage('Deploy to Azure App Service') {
@@ -12,7 +13,7 @@ pipeline {
         withCredentials(bindings: [azureServicePrincipal('Azure-Service-Principal'), usernamePassword(credentialsId: 'docker', passwordVariable: 'DOCKERHUB_CREDENTIALS_PSW', usernameVariable: 'DOCKERHUB_CREDENTIALS_USR')]) {
           sh 'az login --service-principal -u ${AZURE_CLIENT_ID} -p ${AZURE_CLIENT_SECRET} --tenant ${AZURE_TENANT_ID}'
           sh "az webapp delete -g ${AZURE_MODEL} -n ${AZURE_NAME}"
-          sh "az webapp create -g ${AZURE_MODEL} -p ${AZURE_PLAN} -n ${AZURE_NAME} -i ${DOCKERHUB_IMAGE}:latest"
+          sh "az webapp create -g ${AZURE_MODEL} -p ${AZURE_PLAN} -n ${AZURE_NAME} -i ${DOCKERHUB_IMAGE}:${DOCKERHUB_TAG}"
         }
       }
     }
