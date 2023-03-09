@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { Task } from './task.model';
@@ -10,6 +11,7 @@ import { TaskService } from './api.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+  title = environment.titulo;
   tasks$: Observable<Task[]>;
   completedTasks$: Observable<Task[]>;
   updating = false;
