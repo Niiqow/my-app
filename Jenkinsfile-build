@@ -22,7 +22,7 @@ pipeline {
     }
     stage('Deploy') {
   when {
-    branch 'develop'
+    branch 'master'
   }
   steps {
     build job: 'Task-deploy-master', parameters: [
