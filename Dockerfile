@@ -13,8 +13,10 @@ RUN npm install -g @angular/cli
 # Copy the remaining application files to the container
 COPY . .
 
+
 # Build the application
-RUN npm run build --prod -- --build-arg title=$title
+RUN npm run build --prod -- --build-arg title=${title}
+
 
 
 # Use the official Nginx image as the base image for serving content
