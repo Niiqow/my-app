@@ -5,7 +5,8 @@ pipeline {
     AZURE_PLAN = 'Plan-SociusRGLABRGModeloDevOpsDockerDev'
     AZURE_NAME = 'sociuswebapptest009'
     DOCKERHUB_IMAGE = 'niiqow/task'
-    DOCKERHUB_TAG = env.DOCKERHUB_TAG
+    DOCKERHUB_TAG = "${env.DOCKERHUB_TAG}"
+
   }
   stages {
     stage('Deploy to Azure App Service') {
