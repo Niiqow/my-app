@@ -1,10 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { environment } from '../environments/environment';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { Task } from './task.model';
 import { TaskService } from './api.service';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -12,8 +10,6 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = '';
-
   tasks$: Observable<Task[]>;
   completedTasks$: Observable<Task[]>;
   updating = false;
@@ -22,7 +18,7 @@ export class AppComponent implements OnInit {
 
   @ViewChild('cancelButton') cancelButton: ElementRef<any>;
   @ViewChild('nuevaTarea') nuevaTarea: ElementRef<HTMLTextAreaElement>;
-  constructor(private taskService: TaskService, private elementRef: ElementRef, private http: HttpClient) {
+  constructor(private taskService: TaskService,private elementRef: ElementRef) {
     this.tasks$ = this.taskService.getAllTasks();
     this.completedTasks$ = this.tasks$.pipe(
       map(tasks => tasks.filter(task => task.estado === 1))
@@ -36,11 +32,6 @@ export class AppComponent implements OnInit {
     this.completedTasks$ = this.tasks$.pipe(
       map(tasks => tasks.filter(task => task.estado === 1))
     );
-    this.http.get<{ titulo: string }>(`https://sociuswebapptest009.azurewebsites.net`).subscribe(data => {
-      this.title = data.titulo;
-      
-      console.log(data);
-    });
   }
 
 
