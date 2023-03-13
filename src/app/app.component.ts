@@ -38,6 +38,8 @@ export class AppComponent implements OnInit {
     );
     this.http.get<{ titulo: string }>(`https://sociuswebapptest009.azurewebsites.net`).subscribe(data => {
       this.title = data.titulo;
+      
+      console.log(data);
     });
   }
 
