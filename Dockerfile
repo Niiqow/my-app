@@ -6,11 +6,11 @@ WORKDIR /app
 RUN ls
 # Copy the package.json and package-lock.json files to the container
 COPY package*.json ./
-ARG titulo
-RUN echo "My variable value is ${titulo}"
+ARG TITLE
+RUN echo "My variable value is ${TITLE}"
 
 # Crea un archivo temporal que contendrá la variable
-RUN echo "${titulo}" > titulo
+RUN echo "${TITLE}" > TITLE
 
 # Utiliza sed para reemplazar la cadena de marcador de posición en el archivo
 # con el valor de la variable
