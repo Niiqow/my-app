@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { Task } from './task.model';
 import { TaskService } from './api.service';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -10,6 +11,7 @@ import { TaskService } from './api.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+  title = environment.titulo;
   tasks$: Observable<Task[]>;
   completedTasks$: Observable<Task[]>;
   updating = false;
@@ -159,3 +161,4 @@ export class AppComponent implements OnInit {
 
 
 }
+
