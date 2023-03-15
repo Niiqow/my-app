@@ -1,14 +1,14 @@
 # Use the official Node.js 16.x image as the base image
 FROM node:16 as builder
-
+RUN ls
 # Set the working directory to /app
 WORKDIR /app
-
+RUN ls
 # Copy the package.json and package-lock.json files to the container
 COPY package*.json ./
 ARG titulo
 RUN echo "My variable value is ${titulo}"
-RUN ls
+
 # Crea un archivo temporal que contendrá la variable
 RUN echo "${MY_VARIABLE}" > /tmp/my_variable
 
