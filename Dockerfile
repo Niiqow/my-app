@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package*.json ./
 ARG titulo
 RUN echo "My variable value is ${titulo}"
-
+RUN ls
 # Crea un archivo temporal que contendrá la variable
 RUN echo "${MY_VARIABLE}" > /tmp/my_variable
 
