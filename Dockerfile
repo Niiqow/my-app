@@ -14,7 +14,13 @@ RUN npm install -g @angular/cli
 # Copy the remaining application files to the container
 COPY . .
 
-# Set the TITLE environment variable
+# Define una variable de entorno para el workspace
+ENV WORKSPACE /app
+
+# Actualiza las variables de entorno
+RUN echo "export titulo=new_value" >> $WORKSPACE/env_vars.properties
+RUN export $(cat $WORKSPACE/env_vars.properties | xargs) && ng set --global=environment.titulo=$titulo --configuration=production
+RUN export $(cat $WORKSPACE/env_vars.properties | xargs) && ng set --global=environment.titulo=$titulo --configuration=development
 
 # Build the application
 RUN npm run build --prod
@@ -34,8 +40,6 @@ COPY --from=builder /app/dist/my-app /usr/share/nginx/html
 # Expose port 80 for the Nginx web server
 EXPOSE 80
 
-# Define una variable de entorno para el workspace
-ENV WORKSPACE /app
 
 # Start the Nginx web server in the foreground
 CMD ["nginx", "-g", "daemon off;"]
