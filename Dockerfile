@@ -8,6 +8,17 @@ WORKDIR /app
 COPY package*.json ./
 ARG titulo
 RUN echo "My variable value is ${titulo}"
+
+# Crea un archivo temporal que contendrá la variable
+RUN echo "${MY_VARIABLE}" > /tmp/my_variable
+
+# Utiliza sed para reemplazar la cadena de marcador de posición en el archivo
+# con el valor de la variable
+RUN sed -i "s/var_title/$(cat /tmp/titulo)/g" /src/enviroments/enviroment.prod.ts
+RUN sed -i "s/var_title/$(cat /tmp/titulo)/g" /src/enviroments/enviroment.ts
+# Elimina el archivo temporal
+RUN rm /tmp/my_variable
+
 # Install dependencies
 RUN npm install
 RUN npm install -g @angular/cli@15.1.6
