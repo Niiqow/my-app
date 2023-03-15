@@ -14,18 +14,8 @@ RUN npm install -g @angular/cli@15.1.6
 # Copy the remaining application files to the container
 COPY . .
 
-# Define una variable de entorno para el workspace
-ENV WORKSPACE /app
-
-# Actualiza las variables de entorno
-RUN echo "export titulo=new_value" >> $WORKSPACE/env_vars.properties
-RUN export $(cat $WORKSPACE/env_vars.properties | xargs) && \
-    ng config -g cli.warnings.versionMismatch false && \
-    ng config -g cli.packageManager=npm && \
-    ng config -g cli.analytics=false && \
-    ng config -g cli.defaultProject=task && \
-    ng config -g environment.titulo=$titulo --configuration=production && \
-    ng build --prod --configuration=production
+# Build the application
+RUN npm run build --prod
 
 # Use the official Nginx image as the base image for serving content
 FROM nginx:latest
