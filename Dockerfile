@@ -6,7 +6,8 @@ WORKDIR /app
 
 # Copy the package.json and package-lock.json files to the container
 COPY package*.json ./
-
+ARG titulo
+RUN echo "My variable value is ${titulo}"
 # Install dependencies
 RUN npm install
 RUN npm install -g @angular/cli@15.1.6
