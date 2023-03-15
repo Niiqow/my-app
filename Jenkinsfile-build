@@ -31,7 +31,7 @@ pipeline {
               }
             }
           }
-            echo "El valor de la variable de entorno TITLE es: ${TITLE}"
+            echo "El valor de la variable de entorno TITLE es: '${TITLE}'"
         }
       }
     }
