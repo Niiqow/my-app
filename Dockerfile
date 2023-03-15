@@ -19,11 +19,13 @@ ENV WORKSPACE /app
 
 # Actualiza las variables de entorno
 RUN echo "export titulo=new_value" >> $WORKSPACE/env_vars.properties
-RUN ng config -g cli.warnings.versionMismatch false
-RUN export $(cat $WORKSPACE/env_vars.properties | xargs) && /usr/local/bin/ng set --global=@angular/cli@15.1.6 --global=environment.titulo=$titulo --configuration=production
-RUN export $(cat $WORKSPACE/env_vars.properties | xargs) && /usr/local/bin/ng set --global=@angular/cli@15.1.6 --global=environment.titulo=$titulo --configuration=development
-# Build the application
-RUN npm run build --prod
+RUN export $(cat $WORKSPACE/env_vars.properties | xargs) && \
+    ng config -g cli.warnings.versionMismatch false && \
+    ng config -g cli.packageManager=npm && \
+    ng config -g cli.analytics=false && \
+    ng config -g cli.defaultProject=task && \
+    ng config -g environment.titulo=$titulo --configuration=production && \
+    ng build --prod --configuration=production
 
 # Use the official Nginx image as the base image for serving content
 FROM nginx:latest
