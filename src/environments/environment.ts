@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  titulo: "My Title"
+  titulo: "var_title"
 };
 
 /*
