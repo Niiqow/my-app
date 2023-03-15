@@ -11,6 +11,8 @@ COPY package*.json ./
 RUN npm install
 RUN npm install -g @angular/cli
 
+ARG TITULO=default_value
+RUN ng set --global=@angular/cli --global=environment.titulo=$TITULO --configuration=production
 # Copy the remaining application files to the container
 COPY . .
 
@@ -26,8 +28,6 @@ RUN rm /etc/nginx/conf.d/default.conf
 # Copy the custom Nginx configuration file to the container
 COPY nginx.conf /etc/nginx/conf.d/
 
-ARG TITULO=default_value
-RUN ng set --global=@angular/cli@15.1.6 --global=environment.titulo=$TITULO --configuration=production
 # Copy the built Angular app to the Nginx web root directory
 COPY --from=builder /app/dist/my-app /usr/share/nginx/html
 
