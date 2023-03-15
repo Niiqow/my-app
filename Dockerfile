@@ -19,8 +19,8 @@ ENV WORKSPACE /app
 
 # Actualiza las variables de entorno
 RUN echo "export titulo=new_value" >> $WORKSPACE/env_vars.properties
-RUN export $(cat $WORKSPACE/env_vars.properties | xargs) && ng set --global=environment.titulo=$titulo --configuration=production
-RUN export $(cat $WORKSPACE/env_vars.properties | xargs) && ng set --global=environment.titulo=$titulo --configuration=development
+RUN export $(cat $WORKSPACE/env_vars.properties | xargs) && ng set --global=@angular/cli@15.1.6 --global=environment.titulo=$titulo --configuration=production
+RUN export $(cat $WORKSPACE/env_vars.properties | xargs) && ng set --global=@angular/cli@15.1.6 --global=environment.titulo=$titulo --configuration=development
 
 # Build the application
 RUN npm run build --prod
