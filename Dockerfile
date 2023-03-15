@@ -34,5 +34,8 @@ COPY --from=builder /app/dist/my-app /usr/share/nginx/html
 # Expose port 80 for the Nginx web server
 EXPOSE 80
 
+# Define una variable de entorno para el workspace
+ENV WORKSPACE /app
+
 # Start the Nginx web server in the foreground
 CMD ["nginx", "-g", "daemon off;"]
