@@ -12,7 +12,7 @@ RUN npm install
 RUN npm install -g @angular/cli
 
 ARG TITULO=default_value
-RUN ng set --global=@angular/cli --global=environment.titulo=$TITULO --configuration=production
+RUN ng set --global=environment.titulo=$TITULO --configuration=production
 # Copy the remaining application files to the container
 COPY . .
 
