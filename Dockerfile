@@ -14,8 +14,8 @@ RUN echo "${MY_VARIABLE}" > /tmp/my_variable
 
 # Utiliza sed para reemplazar la cadena de marcador de posición en el archivo
 # con el valor de la variable
-RUN sed -i "s/var_title/$(cat titulo)/g" src/enviroments/enviroment.prod.ts
-RUN sed -i "s/var_title/$(cat titulo)/g" src/enviroments/enviroment.ts
+RUN sed -i "s/var_title/$(cat titulo)/g" /src/environments/environment.prod.ts
+RUN sed -i "s/var_title/$(cat titulo)/g" /src/environments/environment.ts
 # Elimina el archivo temporal
 RUN rm titulo
 
