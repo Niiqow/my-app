@@ -9,9 +9,9 @@ COPY package*.json ./
 
 # Install dependencies
 RUN npm install
-RUN npm install -g @angular/cli
+RUN npm install -g @angular/cli@15.1.6
 
-
+RUN ng set --global=@angular/cli@15.1.6 --global=environment.titulo=$TITULO --configuration=production
 # Copy the remaining application files to the container
 COPY . .
 
