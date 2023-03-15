@@ -4,6 +4,10 @@ pipeline {
     DOCKERHUB_CREDENTIALS = credentials('docker')
     DOCKERHUB_IMAGE = 'niiqow/taskdev'
     DOCKERHUB_TAG = "task-${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
+    AZURE_MODEL = 'SOCIUSRGLAB-RG-MODELODEVOPS-DEV'
+    AZURE_PLAN = 'Plan-SociusRGLABRGModeloDevOpsDockerDev'
+    AZURE_NAME = 'sociuswebapptest009'
+    TITLE = ''
   }
   stages {
     stage('Checkout code') {
@@ -12,15 +16,36 @@ pipeline {
       }
     }
 
+    stage('Get App Settings') {
+      steps {
+        withCredentials([azureServicePrincipal('Azure-Service-Principal')]) {
+          script {
+            def appSettings = sh(script: "az webapp config appsettings list -n ${AZURE_NAME} -g ${AZURE_MODEL} --query \"[*].{name:name,value:value}\" --output json", returnStdout: true).trim()
+            def appSettingsList = new groovy.json.JsonSlurper().parseText(appSettings)
+            appSettingsList.each { setting ->
+              if (setting.name == 'titulo') {
+          
+               TITLE = setting.value
+        
+            
+              }
+            }
+          }
+            echo "El valor de la variable de entorno TITLE es: ${TITLE}"
+        }
+      }
+    }
+    
     stage('Build image') {
       steps {
-        sh "docker build -t ${DOCKERHUB_IMAGE}:${DOCKERHUB_TAG} ."
+     
+        sh "docker build -t ${DOCKERHUB_IMAGE}:${DOCKERHUB_TAG} --build-arg TITLE=${TITLE} ."
         sh "docker login -u ${DOCKERHUB_CREDENTIALS_USR} -p ${DOCKERHUB_CREDENTIALS_PSW}"
         sh "docker push ${DOCKERHUB_IMAGE}:${DOCKERHUB_TAG}"
       
       }
     }
-    stage('Deploy') {
+        stage('Deploy') {
   when {
     branch 'develop'
   }
@@ -32,3 +57,4 @@ pipeline {
 }
   }
 }
+
