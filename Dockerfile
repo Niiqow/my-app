@@ -6,6 +6,14 @@ WORKDIR /app
 RUN ls
 # Copy the package.json and package-lock.json files to the container
 COPY package*.json ./
+
+
+# Install dependencies
+RUN npm install
+RUN npm install -g @angular/cli@15.1.6
+
+# Copy the remaining application files to the container
+COPY . .
 ARG TITLE
 RUN echo "My variable value is ${TITLE}"
 
@@ -14,18 +22,10 @@ RUN echo "${TITLE}" > TITLE
 
 # Utiliza sed para reemplazar la cadena de marcador de posición en el archivo
 # con el valor de la variable
-RUN sed -i "s/var_title/$(cat titulo)/g" /src/environments/environment.prod.ts
-RUN sed -i "s/var_title/$(cat titulo)/g" /src/environments/environment.ts
+RUN sed -i "s/var_title/$(cat TITLE)/g" /src/environments/environment.prod.ts
+RUN sed -i "s/var_title/$(cat TITLE)/g" /src/environments/environment.ts
 # Elimina el archivo temporal
-RUN rm titulo
-
-# Install dependencies
-RUN npm install
-RUN npm install -g @angular/cli@15.1.6
-
-# Copy the remaining application files to the container
-COPY . .
-
+RUN rm TITLE
 # Build the application
 RUN npm run build --prod
 
