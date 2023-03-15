@@ -9,7 +9,7 @@ COPY package*.json ./
 
 # Install dependencies
 RUN npm install
-RUN npm install -g @angular/cli
+RUN npm install -g @angular/cli@15.1.6
 
 # Copy the remaining application files to the container
 COPY . .
@@ -20,6 +20,7 @@ ENV WORKSPACE /app
 # Actualiza las variables de entorno
 RUN echo "export titulo=new_value" >> $WORKSPACE/env_vars.properties
 RUN export $(cat $WORKSPACE/env_vars.properties | xargs) && ng set --global=@angular/cli@15.1.6 --global=environment.titulo=$titulo --configuration=production
+
 RUN export $(cat $WORKSPACE/env_vars.properties | xargs) && ng set --global=@angular/cli@15.1.6 --global=environment.titulo=$titulo --configuration=development
 
 # Build the application
