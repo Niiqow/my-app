@@ -10,7 +10,7 @@ ARG titulo
 RUN echo "My variable value is ${titulo}"
 
 # Crea un archivo temporal que contendrá la variable
-RUN echo "${MY_VARIABLE}" > /tmp/my_variable
+RUN echo "${titulo}" > titulo
 
 # Utiliza sed para reemplazar la cadena de marcador de posición en el archivo
 # con el valor de la variable
