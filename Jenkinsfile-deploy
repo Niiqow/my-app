@@ -8,7 +8,7 @@ pipeline {
   environment {
        AZURE_MODEL = 'SOCIUSRGLAB-RG-MODELODEVOPS-PROD'
     AZURE_PLAN = 'Plan-SociusRGLABRGModeloDevOpsDockerProd'
-    AZURE_NAME = 'sociuswebapptest002p'
+    AZURE_NAME = 'sociuswebapptest003p'
     DOCKERHUB_IMAGE = 'niiqow/taskprod'
   }
 
