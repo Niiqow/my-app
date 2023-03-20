@@ -42,7 +42,7 @@ pipeline {
         sh "docker build -t ${DOCKERHUB_IMAGE}:${DOCKERHUB_TAG} --build-arg TITLE='${TITLE}' ."
         sh "docker login -u ${DOCKERHUB_CREDENTIALS_USR} -p ${DOCKERHUB_CREDENTIALS_PSW}"
         sh "docker push ${DOCKERHUB_IMAGE}:${DOCKERHUB_TAG}"
-      
+        sh "docker rmi ${DOCKERHUB_IMAGE}:${DOCKERHUB_TAG}"
       }
     }
         stage('Deploy') {
