@@ -10,12 +10,6 @@ pipeline {
     TITLE = ''
   }
   stages {
-    stage('Checkout code') {
-      steps {
-        checkout([$class: 'GitSCM', branches: [[name: '*/develop']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/Niiqow/my-app.git']]])
-      }
-    }
-
     stage('Get App Settings') {
       steps {
         withCredentials([azureServicePrincipal('Azure-Service-Principal')]) {
