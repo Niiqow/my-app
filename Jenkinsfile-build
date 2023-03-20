@@ -45,7 +45,7 @@ pipeline {
     branch 'develop'
   }
   steps {
-    build job: 'Task-deploy-develop', parameters: [
+    build job: 'Task-deploy-master', parameters: [
       string(name: 'DOCKERHUB_TAG', value: env.DOCKERHUB_TAG)
     ]
   }
