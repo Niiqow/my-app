@@ -1,18 +1,31 @@
 # Use the official Node.js 16.x image as the base image
 FROM node:16 as builder
-
+RUN ls
 # Set the working directory to /app
 WORKDIR /app
-
+RUN ls
 # Copy the package.json and package-lock.json files to the container
 COPY package*.json ./
 
+
 # Install dependencies
-RUN npm install && \
-npm install -g @angular/cli
+RUN npm install
+RUN npm install -g @angular/cli@15.1.6
+
 # Copy the remaining application files to the container
 COPY . .
+ARG TITLE
+RUN echo "My variable value is ${TITLE}"
 
+# Crea un archivo temporal que contendrá la variable
+RUN echo "${TITLE}" > TITLE
+
+# Utiliza sed para reemplazar la cadena de marcador de posición en el archivo
+# con el valor de la variable
+RUN sed -i "s/var_title/$(cat TITLE)/g" /app/src/environments/environment.prod.ts
+RUN sed -i "s/var_title/$(cat TITLE)/g" /app/src/environments/environment.ts
+# Elimina el archivo temporal
+RUN rm TITLE
 # Build the application
 RUN npm run build --prod
 
@@ -31,5 +44,7 @@ COPY --from=builder /app/dist/my-app /usr/share/nginx/html
 # Expose port 80 for the Nginx web server
 EXPOSE 80
 
+
 # Start the Nginx web server in the foreground
 CMD ["nginx", "-g", "daemon off;"]
+
