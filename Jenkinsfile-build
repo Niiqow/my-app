@@ -2,19 +2,14 @@ pipeline {
   agent any
   environment {
     DOCKERHUB_CREDENTIALS = credentials('docker')
-    DOCKERHUB_IMAGE = 'niiqow/taskdev'
+    DOCKERHUB_IMAGE = 'niiqow/taskprod'
     DOCKERHUB_TAG = "task-${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
-    AZURE_MODEL = 'SOCIUSRGLAB-RG-MODELODEVOPS-DEV'
-    AZURE_PLAN = 'Plan-SociusRGLABRGModeloDevOpsDockerDev'
-    AZURE_NAME = 'sociuswebapptest009'
+    AZURE_MODEL = 'SOCIUSRGLAB-RG-MODELODEVOPS-PROD'
+    AZURE_PLAN = 'Plan-SociusRGLABRGModeloDevOpsDockerProd'
+    AZURE_NAME = 'sociuswebapptest003p'
     TITLE = ''
   }
   stages {
-    stage('Checkout code') {
-      steps {
-        checkout([$class: 'GitSCM', branches: [[name: '*/develop']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/Niiqow/my-app.git']]])
-      }
-    }
 
     stage('Get App Settings') {
       steps {
@@ -42,7 +37,7 @@ pipeline {
         sh "docker build -t ${DOCKERHUB_IMAGE}:${DOCKERHUB_TAG} --build-arg TITLE='${TITLE}' ."
         sh "docker login -u ${DOCKERHUB_CREDENTIALS_USR} -p ${DOCKERHUB_CREDENTIALS_PSW}"
         sh "docker push ${DOCKERHUB_IMAGE}:${DOCKERHUB_TAG}"
-      
+        sh "docker rmi ${DOCKERHUB_IMAGE}:${DOCKERHUB_TAG}"
       }
     }
         stage('Deploy') {
