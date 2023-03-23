@@ -7,13 +7,14 @@ pipeline {
     AZURE_MODEL = "AZURE_MODEL_$BRANCH_NAME"
     AZURE_PLAN = "AZURE_PLAN_$BRANCH_NAME"
     AZURE_NAME = "TASK_AZURE_NAME_$BRANCH_NAME"
+    SERVICE = "SERVICE_$BRANCH_NAME"
     BRANCH = "$BRANCH_NAME"
     TITLE = ''
   }
   stages {
     stage('Get App Settings') {
       steps {
-        withCredentials([azureServicePrincipal('Azure-Service-Principal')]) {
+        withCredentials([azureServicePrincipal('${env[env.AZURE_NAME]}')]) {
           sh 'az login --service-principal -u ${AZURE_CLIENT_ID} -p ${AZURE_CLIENT_SECRET} --tenant ${AZURE_TENANT_ID}'
           script {
             def appSettings = sh(script: "az webapp config appsettings list -n ${env[env.AZURE_NAME]} -g ${env[env.AZURE_MODEL]} --query \"[*].{name:name,value:value}\" --output json", returnStdout: true).trim()
@@ -54,6 +55,3 @@ pipeline {
 }
   }
 }
-
-
-
