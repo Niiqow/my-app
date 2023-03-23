@@ -1,50 +1,53 @@
 pipeline {
-  agent any
-  environment {
-    DOCKERHUB_CREDENTIALS = credentials('docker')
-    DOCKERHUB_IMAGE = "TASK_DOCKERHUB_IMAGE_$BRANCH_NAME"
-    DOCKERHUB_TAG = "task-${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
-    AZURE_MODEL = "AZURE_MODEL_$BRANCH_NAME"
-    AZURE_PLAN = "GOTY_PLAN_$BRANCH_NAME"
-    AZURE_NAME = "TASK_AZURE_NAME_$BRANCH_NAME"
-    TITLE = ''
-  }
-  stages {
-    stage('Get App Settings') {
-      steps {
-        withCredentials([azureServicePrincipal('Azure-Service-Principal')]) {
-         sh 'az login --service-principal -u ${AZURE_CLIENT_ID} -p ${AZURE_CLIENT_SECRET} --tenant ${AZURE_TENANT_ID}'
-          script {
-            def appSettings = sh(script: "az webapp config appsettings list -n ${env[env.AZURE_NAME]} -g ${env[env.AZURE_MODEL]} --query \"[*].{name:name,value:value}\" --output json", returnStdout: true).trim()
-            def appSettingsList = new groovy.json.JsonSlurper().parseText(appSettings)
-            appSettingsList.each { setting ->
-              if (setting.name == 'titulo') {
-               TITLE = setting.value
-              }
-            }
-          }
-            echo "El valor de la variable de entorno TITLE es: ${TITLE}"
-        }
-      }
-    }
-    stage('Build image') {
-      steps {
-        sh "docker build -t ${env[env.DOCKERHUB_IMAGE]}:${DOCKERHUB_TAG} --build-arg TITLE='${TITLE}' ."
-        sh "docker login -u ${DOCKERHUB_CREDENTIALS_USR} -p ${DOCKERHUB_CREDENTIALS_PSW}"
-        sh "docker push ${env[env.DOCKERHUB_IMAGE]}:${DOCKERHUB_TAG}"
-        sh "docker rmi ${env[env.DOCKERHUB_IMAGE]}:${DOCKERHUB_TAG}"
-      }
-    }
-        stage('Deploy') {
-  when {
-    branch 'develop'
-  }
-  steps {
-    build job: 'Task-deploy-develop', parameters: [
-      string(name: 'DOCKERHUB_TAG', value: env.DOCKERHUB_TAG)
-    ]
-  }
+  agent any
+  environment {
+    DOCKERHUB_CREDENTIALS = credentials('docker')
+    DOCKERHUB_IMAGE = "TASK_DOCKERHUB_IMAGE_$BRANCH_NAME"
+    DOCKERHUB_TAG = "task-${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
+    AZURE_MODEL = "AZURE_MODEL_$BRANCH_NAME"
+    AZURE_PLAN = "GOTY_PLAN_$BRANCH_NAME"
+    AZURE_NAME = "TASK_AZURE_NAME_$BRANCH_NAME"
+    TITLE = ''
+  }
+  stages {
+    stage('Get App Settings') {
+      steps {
+        withCredentials([azureServicePrincipal('Azure-Service-Principal')]) {
+          script {
+            def appSettings = sh(script: "az webapp config appsettings list -n ${env[env.AZURE_NAME]} -g ${env[env.AZURE_MODEL]} --query \"[*].{name:name,value:value}\" --output json", returnStdout: true).trim()
+            def appSettingsList = new groovy.json.JsonSlurper().parseText(appSettings)
+            appSettingsList.each { setting ->
+              if (setting.name == 'titulo') {
+          
+               TITLE = setting.value
+        
+            
+              }
+            }
+          }
+            echo "El valor de la variable de entorno TITLE es: ${TITLE}"
+        }
+      }
+    }
+    
+    stage('Build image') {
+      steps {
+     
+        sh "docker build -t ${env[env.DOCKERHUB_IMAGE]}:${DOCKERHUB_TAG} --build-arg TITLE='${TITLE}' ."
+        sh "docker login -u ${DOCKERHUB_CREDENTIALS_USR} -p ${DOCKERHUB_CREDENTIALS_PSW}"
+        sh "docker push ${env[env.DOCKERHUB_IMAGE]}:${DOCKERHUB_TAG}"
+        sh "docker rmi ${env[env.DOCKERHUB_IMAGE]}:${DOCKERHUB_TAG}"
+      }
+    }
+        stage('Deploy') {
+  when {
+    branch 'develop'
+  }
+  steps {
+    build job: 'Task-deploy-develop', parameters: [
+      string(name: 'DOCKERHUB_TAG', value: env.DOCKERHUB_TAG)
+    ]
+  }
 }
-  }
+  }
 }
-
