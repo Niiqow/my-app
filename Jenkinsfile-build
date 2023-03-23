@@ -44,10 +44,10 @@ pipeline {
         stage('Deploy') {
   steps {
     build job: 'Task-deploy', parameters: [
-      string(name: 'DOCKERHUB_TAG', value: env.DOCKERHUB_TAG)
-      string(name: 'AZURE_MODEL', value: env.AZURE_MODEL)
-      string(name: 'AZURE_PLAN', value: env.AZURE_PLAN)
-      string(name: 'AZURE_NAME', value: env.AZURE_NAME)
+      string(name: 'DOCKERHUB_TAG', value: env.DOCKERHUB_TAG),
+      string(name: 'AZURE_MODEL', value: env.AZURE_MODEL),
+      string(name: 'AZURE_PLAN', value: env.AZURE_PLAN),
+      string(name: 'AZURE_NAME', value: env.AZURE_NAME),
       string(name: 'DOCKERHUB_IMAGE', value: env.DOCKERHUB_IMAGE)
     ]
   }
