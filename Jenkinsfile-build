@@ -51,7 +51,8 @@ pipeline {
       string(name: 'AZURE_PLAN', value: "${env[env.AZURE_PLAN]}"),
       string(name: 'AZURE_NAME', value: "${env[env.AZURE_NAME]}"),
       string(name: 'DOCKERHUB_IMAGE', value: "${env[env.DOCKERHUB_IMAGE]}"),
-      string(name: 'SERVICE', value: "${env[env.SERVICE]}")
+      string(name: 'SERVICE', value: "${env[env.SERVICE]}"),
+      string(name: 'TITLE', value: "${TITLE}")
     ]
   }
 }
