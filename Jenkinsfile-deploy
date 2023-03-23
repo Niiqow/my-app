@@ -3,19 +3,18 @@ pipeline {
   
   parameters {
     string(name: 'DOCKERHUB_TAG', defaultValue: '', description: 'Tag para la imagen de Docker')
+    string(name: 'AZURE_MODEL', defaultValue: '', description: 'AZURE_MODEL')
+    string(name: 'AZURE_PLAN', defaultValue: '', description: 'AZURE_PLAN')
+    string(name: 'AZURE_NAME', defaultValue: '', description: 'AZURE_NAME')
+    string(name: 'DOCKERHUB_IMAGE', defaultValue: '', description: 'DOCKERHUB_IMAGE')
+    string(name: 'SERVICE', defaultValue: '', description: 'SERVICE')
   }
 
-  environment {
-       AZURE_MODEL = 'SOCIUSRGLAB-RG-MODELODEVOPS-PROD'
-    AZURE_PLAN = 'Plan-SociusRGLABRGModeloDevOpsDockerProd'
-    AZURE_NAME = 'sociuswebapptest003p'
-    DOCKERHUB_IMAGE = 'niiqow/taskprod'
-  }
 
   stages {
     stage('Deploy to Azure App Service') {
       steps {
-        withCredentials(bindings: [azureServicePrincipal('Azure-Service-Principal-Prod')]) {
+        withCredentials(bindings: [azureServicePrincipal("${SERVICE}")]) {
           sh 'az login --service-principal -u ${AZURE_CLIENT_ID} -p ${AZURE_CLIENT_SECRET} --tenant ${AZURE_TENANT_ID}'
           sh "az webapp delete -g ${AZURE_MODEL} -n ${AZURE_NAME}"
           sh "az webapp create -g ${AZURE_MODEL} -p ${AZURE_PLAN} -n ${AZURE_NAME} -i ${DOCKERHUB_IMAGE}:${DOCKERHUB_TAG}"
