@@ -2,10 +2,10 @@ pipeline {
   agent any
   
   parameters {
-    string(name: 'DOCKERHUB_TAG', defaultValue: '', description: 'Tag para la imagen de Docker'),
-    string(name: 'AZURE_MODEL', defaultValue: '', description: 'AZURE_MODEL'),
-    string(name: 'AZURE_PLAN', defaultValue: '', description: 'AZURE_PLAN'),
-    string(name: 'AZURE_NAME', defaultValue: '', description: 'AZURE_NAME'),
+    string(name: 'DOCKERHUB_TAG', defaultValue: '', description: 'Tag para la imagen de Docker')
+    string(name: 'AZURE_MODEL', defaultValue: '', description: 'AZURE_MODEL')
+    string(name: 'AZURE_PLAN', defaultValue: '', description: 'AZURE_PLAN')
+    string(name: 'AZURE_NAME', defaultValue: '', description: 'AZURE_NAME')
     string(name: 'DOCKERHUB_IMAGE', defaultValue: '', description: 'DOCKERHUB_IMAGE')
   }
 
