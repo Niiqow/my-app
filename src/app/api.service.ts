@@ -7,7 +7,7 @@ import { Task } from './task.model';
   providedIn: 'root'
 })
 export class TaskService {
-  private readonly apiUrl = 'http://localhost:3000/api/tasks';
+  private readonly apiUrl = 'https://sociuswebapptest009.azurewebsites.net/api/tasks';
 
   constructor(private http: HttpClient) { }
 
